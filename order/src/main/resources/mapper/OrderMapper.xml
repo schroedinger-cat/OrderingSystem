@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.max.repository.OrderRepository">
+
+    <resultMap id="OrderJoinMenu" type="com.max.entity.Order">
+        <id column="id" property="id"/>
+        <result column="date" property="date"/>
+        <result column="state" property="state"/>
+        <association property="menu" javaType="com.max.entity.Menu">
+            <id column="mid" property="id"/>
+            <result column="name" property="name"/>
+            <result column="price" property="price"/>
+            <result column="flavor" property="flavor"/>
+            <result column="tid" property="tid"/>
+        </association>
+    </resultMap>
+
+    <resultMap id="OrderJoinMenuJoinUser" type="com.max.entity.Order">
+        <id column="id" property="id"/>
+        <result column="date" property="date"/>
+        <result column="state" property="state"/>
+        <association property="menu" javaType="com.max.entity.Menu">
+            <id column="mid" property="id"/>
+            <result column="name" property="name"/>
+            <result column="price" property="price"/>
+            <result column="flavor" property="flavor"/>
+            <result column="tid" property="tid"/>
+        </association>
+        <association property="user" javaType="com.max.entity.User">
+            <id column="uid" property="id"/>
+            <result column="username" property="username"/>
+            <result column="nickname" property="nickname"/>
+            <result column="gender" property="gender"/>
+            <result column="telephone" property="telephone"/>
+            <result column="registerdate" property="registerdate"/>
+            <result column="address" property="address"/>
+        </association>
+    </resultMap>
+
+
+    <select id="selectAllJoinMenuByUid" resultMap="OrderJoinMenu">
+        select o.id,o.date,o.state,m.id as mid,m.name,m.price,m.flavor,m.tid
+        from t_order as o left join t_menu as m on o.mid = m.id where o.uid = #{uid}
+    </select>
+
+    <select id="selectAllJoinMenuByState" resultMap="OrderJoinMenuJoinUser">
+
+        select o.id,o.date,o.state,m.id as mid,m.name,m.price,m.flavor,m.tid,u.id as uid,username,nickname,gender,telephone,registerdate,address
+        from t_order as o
+        left join t_menu as m on o.mid = m.id
+        left join t_user as u on o.uid = u.id
+        where state = #{status}
+
+    </select>
+</mapper>

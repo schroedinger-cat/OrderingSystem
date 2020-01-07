@@ -1,0 +1,27 @@
+server:
+  port: 8050
+
+spring:
+  application:
+    name: account
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/****?characterEncoding=utf-8
+    username: ****
+    password: ****
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
+
+
+mybatis:
+  type-aliases-package: com.max.entity
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+
+
